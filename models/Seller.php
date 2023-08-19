@@ -50,7 +50,6 @@ class Seller
         global $database;
 
         $this->name = trim(htmlspecialchars(strip_tags($this->name ?? '')));
-
         $this->email = trim(htmlspecialchars(strip_tags($this->email ?? '')));
         $this->password = trim(htmlspecialchars(strip_tags($this->password ?? '')));
         $this->image = trim(htmlspecialchars(strip_tags($this->image ?? '')));
@@ -75,6 +74,34 @@ class Seller
         } else {
             return false;
         };
+    }
+
+    // login 
+
+    public function login()
+    {
+        global $database;
+        $this->email = trim(htmlspecialchars(strip_tags($this->email ?? '')));
+        $this->password = trim(htmlspecialchars(strip_tags($this->password ?? '')));
+
+        $sql = "SELECT * FROM $this->table WHERE email='" . $database->escape_value($this->email) . "'";
+
+        $result = $database->query($sql);
+        $seller = $database->fetch_row($result);
+
+        if (empty($seller)) {
+            return "seller doesn't exists";
+        } else {
+
+
+            // check $password against the $hashedPassword => returns true/false
+            if (Bcrypt::checkPassword($this->password, $seller['password'])) {
+                unset($seller['password']);
+                return $seller;
+            } else {
+                return "password does not match";
+            }
+        }
     }
 }
 
