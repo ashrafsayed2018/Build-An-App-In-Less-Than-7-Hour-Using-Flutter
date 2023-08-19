@@ -103,6 +103,17 @@ class Seller
             }
         }
     }
+
+    // get all sellers
+
+    public function get_all_sellers()
+    {
+
+        global $database;
+        $sql = "SELECT id,name,image,address FROM $this->table";
+        $result = $database->query($sql);
+        return $database->fetch_array($result);
+    }
 }
 
 $seller = new Seller();

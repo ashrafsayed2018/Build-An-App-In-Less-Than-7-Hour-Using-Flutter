@@ -45,11 +45,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         // get the file name
         $file_name =  $_FILES['image']['name'];
         $file_tmp =  $_FILES['image']['tmp_name'];
-        // the image extension
-        $extension = end(explode(".", $file_name));
+        $file_extension = explode(
+            ".",
+            $file_name
+        );
+        $extension = end($file_extension);
+
 
         // the image name will save in the database and in the images folser
-        $new_file_name = $seller->email . "_profile" . $extension;
+        $new_file_name = $seller->email . "_profile" . "." . $extension;
 
         // upload the image to seller_images folder
         move_uploaded_file($file_tmp, $seller_images_folder . "/" . $new_file_name);
