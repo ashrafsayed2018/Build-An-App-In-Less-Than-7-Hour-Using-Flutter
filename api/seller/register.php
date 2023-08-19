@@ -72,8 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         echo json_encode(array("success" => false, "message" => "description is required"));
         die();
     }
-
-
     if ($seller->check_unique_email()) {
         // if the register is complete 
         if ($id = $seller->register_seller()) {
